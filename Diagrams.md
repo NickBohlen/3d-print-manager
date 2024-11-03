@@ -10,11 +10,8 @@
 
 ## Container Diagram:
 
-![ContainerDiagram](https://github.com/user-attachments/assets/ad07f687-cecd-45cf-af42-0b282518effd)
+![ContainerDiagram](https://github.com/user-attachments/assets/620c9172-dbb5-41b1-add3-b7de0dbc322e)
 
 ## Component Diagram:
 
-  Main components include:
-        Project Management: For adding/editing projects, uploading files, and tracking settings.
-        Material and Duration Tracking: To log and calculate filament usage and time.
-        Error Logging: To track and troubleshoot issues encountered during prints.
+![ComponentDiagram](https://github.com/user-attachments/assets/2ef55d37-aea5-4812-b90b-08615a85a511)
