@@ -20,6 +20,7 @@ docker-compose up
 ```
 The App will be hosted locally currently and can be accessed vi:
 Frontend: http://localhost:3000
+
 Backend API: http://localhost:8000
 
 
