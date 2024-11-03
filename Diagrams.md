@@ -10,7 +10,7 @@
 
 ## Container Diagram:
 
-  Containers include a web server (e.g., Node.js or Django), a front-end (React or Vue.js), and a database (SQLite or PostgreSQL) for storing project details and logs.
+![ContainerDiagram](https://github.com/user-attachments/assets/ad07f687-cecd-45cf-af42-0b282518effd)
 
 ## Component Diagram:
 
