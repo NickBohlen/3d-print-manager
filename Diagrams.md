@@ -2,15 +2,17 @@
 
 ![3dprintmanager](https://github.com/user-attachments/assets/16afeec1-f6d7-46a1-b2ef-063976bd8f6f)
 
-Context Diagram:
+# Diagrams
 
-  The 3D Print Manager app runs locally and is accessible via a web browser. The user interacts with a front-end interface to add, view, and edit projects. The app communicates with a local database where project files, logs, and notes are stored.
+## Context Diagram:
 
-Container Diagram:
+![ContextDiagram](https://github.com/user-attachments/assets/92d7f0cd-c1d7-4939-b60e-6a3a54cfe1f9)
+
+## Container Diagram:
 
   Containers include a web server (e.g., Node.js or Django), a front-end (React or Vue.js), and a database (SQLite or PostgreSQL) for storing project details and logs.
 
-Component Diagram:
+## Component Diagram:
 
   Main components include:
         Project Management: For adding/editing projects, uploading files, and tracking settings.
