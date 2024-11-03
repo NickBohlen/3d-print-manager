@@ -5,7 +5,7 @@ The 3D Print Manager app helps you organize, track, and log each of your 3D prin
 ```bash
 git clone https://github.com/NickBohlen/3d-print-manager.git
 cd 3d-print-manager
-docker-compose up
+docker-compose up --build
 ```
 
 ## Getting Started
