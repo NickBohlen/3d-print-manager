@@ -1,9 +1,6 @@
-# Ideas
+# Mockup
 
-Main Dashboard: A project overview with thumbnails or names of recent projects, estimated material usage, and quick links to recent logs or error notes.
-Project Detail View: Each project’s page showing settings, estimated and actual material usage, print duration, and any logged errors or troubleshooting notes.
-Add/Edit Project Form: A form to input new project data or update existing projects with file uploads, print parameters, and material estimates.
-
+![3d-printmanager](https://github.com/user-attachments/assets/edbde38c-1a8b-4c6e-b356-a78ae75a230a)
 
 Context Diagram:
 
