@@ -18,7 +18,8 @@ After installing, you can run it with the following command:
 ```
 docker-compose up
 ```
-The App will be hosted locally currently and can be accessed vi:
+The App will be hosted locally currently and can be accessed via:
+
 Frontend: http://localhost:3000
 
 Backend API: http://localhost:8000
