@@ -1,6 +1,5 @@
 # 3D Print Manager
-Thez3D Print Manager app helps you organize, track, and log each of your 3D printing projects from design to final print. Easily add projects, track estimated material usage and print duration, and log any errors, tweaks, or settings changes. Whether you’re troubleshooting a print, planning filament use, or simply trying to remember which settings worked best, this app centralizes all your printing details in one convenient place.
-Installation and Getting Started
+The 3D Print Manager app helps you organize, track, and log each of your 3D printing projects from design to final print. Easily add projects, track estimated material usage and print duration, and log any errors, tweaks, or settings changes. Whether you’re troubleshooting a print, planning filament use, or simply trying to remember which settings worked best, this app centralizes all your printing details in one convenient place.
 
 ## Installation
 ```bash
