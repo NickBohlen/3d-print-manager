@@ -1,6 +1,6 @@
 # Mockup
 
-![3dprintmanager](https://github.com/user-attachments/assets/43828c23-568e-43e9-a291-3032e6177f08)
+![3dprintmanager](https://github.com/user-attachments/assets/16afeec1-f6d7-46a1-b2ef-063976bd8f6f)
 
 Context Diagram:
 
