@@ -8,7 +8,7 @@ cd 3d-print-manager
 
 docker-compose up --build
 
-ocker-compose run backend python manage.py migrate
+docker-compose run backend python manage.py migrate
 docker-compose run backend python manage.py createsuperuser
 ```
 
