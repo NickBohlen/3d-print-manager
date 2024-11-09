@@ -24,6 +24,9 @@ Frontend: http://localhost:3000
 
 Backend API: http://localhost:8000
 
+## License
+
+Copyright (c) Nicholas Bohlen 2024
 
 ## User Stories
 
