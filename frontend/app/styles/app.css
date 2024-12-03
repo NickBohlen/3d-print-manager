@@ -1,0 +1,11 @@
+.project-card {
+    background-color: #f9f9f9;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 8px;
+  }
+  
+  .project-card h3 {
+    margin-top: 0;
+  }
+  

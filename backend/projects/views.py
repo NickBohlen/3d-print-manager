@@ -3,6 +3,10 @@ from .models import Project
 from .serializers import ProjectSerializer
 from django.shortcuts import render, redirect
 from .models import Material
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Project
 
 def material_list(request):
     materials = Material.objects.all()
@@ -27,3 +31,10 @@ def add_material(request):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+class ProjectList(APIView):
+    def get(self, request):
+        # Fetch projects from the database
+        projects = Project.objects.all()
+        projects_data = [{"name": project.name, "description": project.description} for project in projects]
+        return Response(projects_data, status=status.HTTP_200_OK)

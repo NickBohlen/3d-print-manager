@@ -1,0 +1,10 @@
+<h2>3D Printing Projects</h2>
+
+{{#each this.model as |project|}}
+  <div class="project-card">
+    <h3>{{project.name}}</h3>
+    <p>{{project.description}}</p>
+  </div>
+{{else}}
+  <p>No projects available.</p>
+{{/each}}
