@@ -1,11 +1,11 @@
 from django.db import models
 
 class Project(models.Model):
-    name = models.CharField(max_length=100)
-    material = models.CharField(max_length=50)
-    duration = models.CharField(max_length=50)
-    notes = models.TextField(blank=True, null=True)
-
+    name = models.CharField(max_length=255)
+    material_type = models.CharField(max_length=100)
+    stl_file = models.FileField(upload_to='uploads/')  # This is where the .stl file will be stored
+    created_at = models.DateTimeField(auto_now_add=True)
+    
     def __str__(self):
         return self.name
 
@@ -36,4 +36,3 @@ class PrintJob(models.Model):
             # Check if material is below reorder threshold
             if self.material.current_quantity <= self.material.reorder_threshold:
                 print(f"Low stock alert: {self.material} needs to be reordered!")
-

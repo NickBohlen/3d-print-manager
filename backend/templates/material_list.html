@@ -1,16 +1,14 @@
-<h2>Material Inventory</h2>
-<table>
-    <tr>
-        <th>Name</th><th>Type</th><th>Color</th><th>Quantity (g)</th><th>Reorder Threshold</th>
-    </tr>
-    {% for material in materials %}
-    <tr>
-        <td>{{ material.name }}</td>
-        <td>{{ material.type }}</td>
-        <td>{{ material.color }}</td>
-        <td>{{ material.current_quantity }}</td>
-        <td>{{ material.reorder_threshold }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<a href="{% url 'add_material' %}">Add New Material</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material List</title>
+</head>
+<body>
+    <h1>Material List</h1>
+    <ul>
+        {% for material in materials %}
+            <li>{{ material.name }} - {{ material.type }} - {{ material.color }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
