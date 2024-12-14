@@ -4,25 +4,28 @@ The 3D Print Manager app helps you organize, track, and log each of your 3D prin
 ## Installation
 ```bash
 git clone https://github.com/NickBohlen/3d-print-manager.git
+
 cd 3d-print-manager
-
+```
+Install docker:
+	•	For MacOS: Docker for Mac
+	•	For Windows: Docker for Windows
+	•	For Linux: Docker for Linux
+```bash
 docker-compose up --build
-
-docker-compose run backend python manage.py migrate
-docker-compose run backend python manage.py createsuperuser
 ```
 
 ## Getting Started
 
 After installing, you can run it with the following command:
-```
+```bash
 docker-compose up
 ```
 The App will be hosted locally currently and can be accessed via:
 
-Frontend: http://localhost:3000
-
-Backend API: http://localhost:8000
+http://127.0.0.1:8000/
+or
+http://localhost:8000/
 
 ## License
 
