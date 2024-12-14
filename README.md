@@ -9,6 +9,8 @@ cd 3d-print-manager/print_manager
 ```
 Install docker - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
+Start the Docker application on your device
+
 Build the containers:
 ```bash
 docker-compose build
