@@ -167,6 +167,13 @@
                 <li><a href="{% url 'all_print_errors' %}">Print Errors</a></li>
                 <li><a href="{% url 'stl_files' %}">STL Files</a></li>
                 <li><a href="{% url 'streaming_page' %}">Live Stream</a></li>
+                
+                <!-- Conditionally display Logout or Login based on user authentication -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

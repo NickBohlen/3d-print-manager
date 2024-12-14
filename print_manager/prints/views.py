@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from .models import Material, PrintJob, PrintError, StandaloneSTL, STLFile
@@ -5,9 +6,12 @@ from .forms import MaterialForm, PrintJobForm, PrintErrorForm, StandaloneSTLForm
 from django.conf import settings
 import cv2
 from django.http import StreamingHttpResponse
-from django.http import HttpResponse
+from django.contrib.auth import login
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 
+@login_required
 def home(request):
     # Fetch errors with the status 'In Progress'
     in_progress_errors = PrintError.objects.filter(status='In Progress')
@@ -24,6 +28,7 @@ def home(request):
         'stl_files': stl_files,
     })
 
+@login_required
 def add_material(request):
     if request.method == 'POST':
         form = MaterialForm(request.POST)
@@ -34,6 +39,7 @@ def add_material(request):
         form = MaterialForm()
     return render(request, 'add_material.html', {'form': form})
 
+@login_required
 def add_print_job(request):
     if request.method == 'POST':
         form = PrintJobForm(request.POST, request.FILES)  # Ensure you're passing `request.FILES` for file uploads
@@ -48,10 +54,12 @@ def add_print_job(request):
 
     return render(request, 'add_print_job.html', {'form': form})
 
+@login_required
 def all_print_jobs(request):
     print_jobs = PrintJob.objects.all()  # Get all print jobs
     return render(request, 'all_print_jobs.html', {'print_jobs': print_jobs})
 
+@login_required
 def update_print_job(request, pk):
     print_job = get_object_or_404(PrintJob, pk=pk)
     if request.method == 'POST':
@@ -63,7 +71,7 @@ def update_print_job(request, pk):
         form = PrintJobForm(instance=print_job)
     return render(request, 'update_print_job.html', {'form': form})
 
-# Remove Print Job View
+@login_required
 def remove_print_job(request, pk):
     print_job = get_object_or_404(PrintJob, pk=pk)
     if request.method == 'POST':
@@ -71,11 +79,12 @@ def remove_print_job(request, pk):
         return redirect('all_print_jobs')
     return render(request, 'all_print_jobs.html')
 
+@login_required
 def all_print_errors(request):
     errors = PrintError.objects.all().order_by('-timestamp')  # Fetching all errors, ordered by most recent
     return render(request, 'all_print_errors.html', {'errors': errors})
 
-# View to add a new print error
+@login_required
 def add_print_error(request):
     if request.method == 'POST':
         form = PrintErrorForm(request.POST)
@@ -87,6 +96,7 @@ def add_print_error(request):
 
     return render(request, 'add_print_error.html', {'form': form})
 
+@login_required
 def upload_stl(request):
     if request.method == 'POST' and request.FILES:
         # If the form is submitted and contains files
@@ -99,6 +109,7 @@ def upload_stl(request):
 
     return render(request, 'upload_stl.html', {'form': form})
 
+@login_required
 def stream_video(request):
     # Assuming your .m3u8 file is in the 'media' folder
     stream_url = os.path.join(settings.MEDIA_URL, 'streams/stream.m3u8')
@@ -106,6 +117,7 @@ def stream_video(request):
 
 RTSP_URL = 'rtsp://A8Rd5dWFSkMr:5v57qAEce4em@192.168.0.14:554/live0'
 
+@login_required
 def generate_frame():
     cap = cv2.VideoCapture(RTSP_URL)
     if not cap.isOpened():
@@ -120,14 +132,16 @@ def generate_frame():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+@login_required
 def stream_video(request):
     return StreamingHttpResponse(generate_frame(),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
+@login_required
 def streaming_page(request):
     return render(request, 'streaming.html')
 
-# View to display all materials
+@login_required
 def all_materials(request):
     materials = Material.objects.all()
 
@@ -148,7 +162,7 @@ def all_materials(request):
 
     return render(request, 'all_materials.html', {'materials': materials})
 
-# View to edit a material
+@login_required
 def edit_material(request, material_id):
     material = get_object_or_404(Material, id=material_id)
 
@@ -162,22 +176,25 @@ def edit_material(request, material_id):
 
     return render(request, 'edit_material.html', {'form': form, 'material': material})
 
-# View to remove a material
+@login_required
 def remove_material(request, material_id):
     material = get_object_or_404(Material, id=material_id)
     material.delete()
     return redirect('all_materials')
 
+@login_required
 def stl_files(request):
     # Query all STL files from the database
     stl_files = STLFile.objects.all()
     return render(request, 'stl_files.html', {'stl_files': stl_files})
 
+@login_required
 def remove_stl(request, stl_id):
     stl_file = get_object_or_404(STLFile, id=stl_id)
     stl_file.delete()
     return redirect('stl_files')  # Redirect back to the STL files list
 
+@login_required
 def remove_print_error(request, error_id):
     error = get_object_or_404(PrintError, id=error_id)
     
@@ -188,6 +205,7 @@ def remove_print_error(request, error_id):
     # Optionally, you can render a confirmation page or just redirect on GET requests.
     return redirect('all_print_errors')
 
+@login_required
 def change_print_error_status(request, error_id):
     error = get_object_or_404(PrintError, id=error_id)
     if request.method == 'POST':
@@ -196,6 +214,7 @@ def change_print_error_status(request, error_id):
         error.save()
     return redirect('all_print_errors')
 
+@login_required
 def update_print_error_status(request, error_id):
     try:
         error = PrintError.objects.get(id=error_id)
@@ -210,3 +229,17 @@ def update_print_error_status(request, error_id):
         return redirect('all_print_errors')  # Redirect back to the errors page
 
     return redirect('all_print_errors')  # Redirect back if not a POST request
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in after registration
+            return redirect('login')  # Redirect to the home page after signup
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html' 
