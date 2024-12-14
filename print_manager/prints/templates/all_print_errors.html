@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Print Errors</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Table Section */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h2 {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .add-error-button {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .add-error-button a {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .add-error-button a:hover {
+            background-color: #1e7e34;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .action-buttons form {
+            display: inline;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #1e7e34;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #888;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3D Print Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'all_materials' %}">Materials</a></li>
+                <li><a href="{% url 'all_print_jobs' %}">Print Jobs</a></li>
+                <li><a href="{% url 'all_print_errors' %}">Print Errors</a></li>
+                <li><a href="{% url 'stl_files' %}">STL Files</a></li>
+                <li><a href="{% url 'streaming_page' %}">Live Stream</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>All Print Errors</h2>
+
+        <!-- Button to Add a New Print Error -->
+        <div class="add-error-button">
+            <a href="{% url 'add_print_error' %}">Add a Print Error</a>
+        </div>
+
+        {% if errors %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Print Job</th>
+                    <th>Error Message</th>
+                    <th>Status</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for error in errors %}
+                    <tr>
+                        <td>{{ error.print_job.model_file.name }}</td>
+                        <td>{{ error.error_message }}</td>
+                        <td>
+                            <!-- Form to Change Status -->
+                            <form method="POST" action="{% url 'update_print_error_status' error.id %}">
+                                {% csrf_token %}
+                                <select name="status" onchange="this.form.submit()">
+                                    <option value="Pending" {% if error.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Resolved" {% if error.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                                    <option value="In Progress" {% if error.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>{{ error.timestamp }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <!-- Remove Print Error -->
+                                <form method="POST" action="{% url 'remove_print_error' error.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" onclick="return confirm('Are you sure you want to remove this print error?');">Remove</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-message">No print errors available.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Manager</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Page Layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            width: 300px;
+            min-height: 200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h2 {
+            color: #28a745;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 5px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #1e7e34;
+        }
+
+        .material-radio {
+            margin-right: 10px;
+        }
+
+        /* STL Files Section Styles */
+        .stl-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .stl-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .stl-item span {
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3D Print Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'all_materials' %}">Materials</a></li>
+                <li><a href="{% url 'all_print_jobs' %}">Print Jobs</a></li>
+                <li><a href="{% url 'all_print_errors' %}">Print Errors</a></li>
+                <li><a href="{% url 'stl_files' %}">STL Files</a></li>
+                <li><a href="{% url 'streaming_page' %}">Live Stream</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Materials Section -->
+        <div class="card">
+            <h2>Materials</h2>
+            <form method="POST" action="{% url 'all_materials' %}">
+                {% csrf_token %}
+                <ul>
+                    {% for material in materials %}
+                        <li>
+                            <input type="radio" name="selected_material" value="{{ material.id }}" id="material_{{ material.id }}" class="material-radio">
+                            <label for="material_{{ material.id }}">{{ material.name }} - {{ material.color }} - {{ material.quantity }}g</label>
+                        </li>
+                    {% empty %}
+                        <li>No materials available.</li>
+                    {% endfor %}
+                </ul>
+                <div>
+                    <button type="submit" name="action" value="update" class="button">Update Material</button>
+                    <button type="submit" name="action" value="delete" class="button">Delete Material</button>
+                </div>
+            </form>
+            <a class="button" href="{% url 'add_material' %}">Add Material</a>
+            <a class="button" href="{% url 'all_materials' %}">View All</a> <!-- View All button for Materials -->
+        </div>
+
+        <!-- Print Jobs Section -->
+        <div class="card">
+            <h2>Print Jobs</h2>
+            <ul>
+                {% for print_job in print_jobs %}
+                    <li>
+                        {{ print_job.model_file.name }}<br>
+                        Status: {{ print_job.status }}<br>
+                        Time: {{ print_job.estimated_time }}
+                    </li>
+                {% empty %}
+                    <li>No print jobs available.</li>
+                {% endfor %}
+            </ul>
+            <a class="button" href="{% url 'add_print_job' %}">Add Print Job</a>
+            <a class="button" href="{% url 'all_print_jobs' %}">View All</a>
+        </div>
+
+        <!-- Print Errors Section -->
+        <div class="card">
+            <h2>Print Errors</h2>
+            {% if in_progress_errors %}
+                <ul>
+                    {% for error in in_progress_errors %}
+                        <li>
+                            Error: {{ error.error_message }}<br>
+                            Print Job: {{ error.print_job.model_file.name }}<br>
+                            Status: {{ error.status }}<br>
+                            Timestamp: {{ error.timestamp }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No print errors in progress.</p>
+            {% endif %}
+            <a class="button" href="{% url 'add_print_error' %}">Add Error</a>
+            <a class="button" href="{% url 'all_print_errors' %}">View All</a>
+        </div>
+
+        <!-- STL Files Section -->
+        <div class="card">
+            <h2>STL Files</h2>
+            {% if stl_files %}
+            <ul class="stl-list">
+                {% for stl in stl_files %}
+                <li class="stl-item">
+                    <span>{{ stl.name }} (Uploaded: {{ stl.uploaded_at }})</span>
+                    <div class="action-buttons">
+                        <form method="POST" action="{% url 'remove_stl' stl.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Are you sure you want to remove this STL file?');">Remove</button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No STL files uploaded yet.</p>
+            {% endif %}
+            <a class="button" href="{% url 'upload_stl' %}">Upload New STL</a>
+            <a class="button" href="{% url 'stl_files' %}">View All</a> <!-- View All button for STL Files -->
+        </div>
+
+        <!-- Camera Stream Section -->
+        <div class="card">
+            <h2>Live Camera</h2>
+            <a class="button" href="{% url 'streaming_page' %}">View Stream</a>
+        </div>
+    </div>
+</body>
+</html>
