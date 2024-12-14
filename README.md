@@ -7,10 +7,7 @@ git clone https://github.com/NickBohlen/3d-print-manager.git
 
 cd 3d-print-manager
 ```
-Install docker:
-	•	For MacOS: Docker for Mac
-	•	For Windows: Docker for Windows
-	•	For Linux: Docker for Linux
+Install docker - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
 ```bash
 docker-compose up --build
 ```
