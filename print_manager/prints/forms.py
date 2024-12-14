@@ -24,7 +24,7 @@ class PrintErrorForm(forms.ModelForm):
 
     class Meta:
         model = PrintError
-        fields = ['print_job', 'error_message', 'status']  # Add 'status' to the form fields
+        fields = ['print_job', 'error_message', 'status']  
 
 class StandaloneSTLForm(forms.ModelForm):
     class Meta:
@@ -34,7 +34,7 @@ class StandaloneSTLForm(forms.ModelForm):
 class STLFileForm(forms.ModelForm):
     class Meta:
         model = STLFile
-        fields = ['name', 'file']  # Ensure 'name' and 'file' are included in the form
+        fields = ['name', 'file'] 
 
 class MaterialForm(forms.ModelForm):
     class Meta:

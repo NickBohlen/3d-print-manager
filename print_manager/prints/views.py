@@ -16,7 +16,7 @@ def home(request):
     # Fetch errors with the status 'In Progress'
     in_progress_errors = PrintError.objects.filter(status='In Progress')
 
-    # Fetch other required data (such as print jobs, materials, etc.)
+    # Fetch other required data
     materials = Material.objects.all()
     print_jobs = PrintJob.objects.all()
     stl_files = STLFile.objects.all()
@@ -42,7 +42,7 @@ def add_material(request):
 @login_required
 def add_print_job(request):
     if request.method == 'POST':
-        form = PrintJobForm(request.POST, request.FILES)  # Ensure you're passing `request.FILES` for file uploads
+        form = PrintJobForm(request.POST, request.FILES) 
         if form.is_valid():
             form.save()  # Save the form data to the database
             return redirect('all_print_jobs')  # Redirect to the all print jobs page after saving
@@ -111,7 +111,6 @@ def upload_stl(request):
 
 @login_required
 def stream_video(request):
-    # Assuming your .m3u8 file is in the 'media' folder
     stream_url = os.path.join(settings.MEDIA_URL, 'streams/stream.m3u8')
     return render(request, 'streaming.html', {'stream_url': stream_url})
 
@@ -202,7 +201,6 @@ def remove_print_error(request, error_id):
         error.delete()  # This removes the print error from the database.
         return redirect('all_print_errors')  # Redirect back to the print errors page.
 
-    # Optionally, you can render a confirmation page or just redirect on GET requests.
     return redirect('all_print_errors')
 
 @login_required
