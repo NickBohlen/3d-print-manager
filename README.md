@@ -8,13 +8,15 @@ git clone https://github.com/NickBohlen/3d-print-manager.git
 cd 3d-print-manager
 ```
 Install docker - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+Build the containers:
 ```bash
-docker-compose up --build
+docker-compose build
 ```
 
 ## Getting Started
 
-After installing, you can run it with the following command:
+After installing, you can start the containers with the following command:
 ```bash
 docker-compose up
 ```
@@ -23,6 +25,12 @@ The App will be hosted locally currently and can be accessed via:
 http://127.0.0.1:8000/
 or
 http://localhost:8000/
+
+
+When complete, you can stop the containers with the following command:
+```bash
+docker-compose down
+```
 
 ## License
 
