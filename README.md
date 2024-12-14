@@ -5,7 +5,7 @@ The 3D Print Manager app helps you organize, track, and log each of your 3D prin
 ```bash
 git clone https://github.com/NickBohlen/3d-print-manager.git
 
-cd 3d-print-manager
+cd 3d-print-manager/print_manager
 ```
 Install docker - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
