@@ -34,6 +34,8 @@ When complete, you can stop the containers with the following command:
 docker-compose down
 ```
 
+This application has not been deployed to a cloud service provider.
+
 ## License
 
 Copyright (c) Nicholas Bohlen 2024
